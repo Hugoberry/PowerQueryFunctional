@@ -144,7 +144,7 @@ shared _.Map =
         "_.Map",
         "Apply a transform to all elements of a list.
         <br>(a -> b) -> [a] -> [b]",
-        {[ Description = "", Code="_.Map(Numbers.Sin)", Result="function"]},  
+        {[ Description = "Apply a function to a list of integers", Code="= _.Map(Number.Factorial)({1..5})", Result="{1,2,6,24,120}"]},  
         (fn) => (list) => List.Transform(list, fn)
      );
 
@@ -153,7 +153,7 @@ shared _.Filter =
         "_.Filter",
         "Evaluate elements of a list against a predicate, returning a new list of the items which evaluated to true.
         <br>:: (a -> Boolean) -> [a] -> [a]",
-        {[ Description = "", Code="_.Filter(Numbers.Sin)", Result="function"]},  
+        {[ Description = "Enumerate Odd numbers in list {0..9}", Code="= _.Filter(Number.IsOdd)({0..9})", Result="{1,3,5,7,9}"]},  
         (fn) => (list) => List.Select(list, fn)
      );
 
@@ -162,7 +162,7 @@ shared _.Combine =
         "_.Combine",
         "Given two lists, create a new list containing the result of appending b to a.
         <br>:: [a] [a] -> [a]",
-        {[ Description = "", Code="_.Combine(Numbers.Sin)", Result="function"]},  
+        {[ Description = "Concatenate two lists", Code="_.Combine({1,2},{3,4})", Result="{1,2,3,4}"]},  
         (a, b) => a & b
      );
 shared _.Append = 
@@ -170,7 +170,7 @@ shared _.Append =
         "_.Append",
         "Add a single element to the tail of a list and return a new list containing the merged result.
         <br>:: a -> [a] -> [a]",
-        {[ Description = "", Code="_.Append(Numbers.Sin)", Result="function"]},  
+        {[ Description = "Append 2 to a list of {4}", Code="_.Append(2)({4})", Result="{4,2}"]},  
         (a) => (list) => list & _.Of(a)
      );
 
