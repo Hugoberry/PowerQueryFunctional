@@ -2,7 +2,7 @@
     
 _Compose = 
     Document(
-        "_.Identity",
+        "_Compose",
         "Right-to-left composition of a pair of unary functions
         <br>:: (b -> c) (a -> b) -> a -> c",
         null,
@@ -186,13 +186,13 @@ shared _.Prepend =
         "_.Prepend",
         "Add a single element to the head of a list and return a new list containing the merged result.
         <br>:: a -> [a] -> [a]",
-        {[ Description = "", Code="_.Prepend(Numbers.Sin)", Result="function"]},  
+        {[ Description = "Prepend 2 to a list of {4}", Code="_.Prepend(2)({4})", Result="{2,4}"]},  
         (a) => (list) => _.Of(a) & list
     );
 
 shared _.ChainOperations =
     Document(
-        "_.Prepend",
+        "_.ChainOperations",
         "Provide the ability to chain sequences of internal table, record and list operations.
       <br>The internal transform functions all take the object being transformed as parameter 0. To remove the need to assign intermediate variables this lifts that argument to be within a higher-order function allowing a sequence of operations to be performed. This sequence is defined as a list of lists, with element 0 containing the transform function and elements 1..n containing the arguments 1..n for that transform.
       <br>:: [(a -> b, x, y, ..n), (b -> c, x, y, ..n),...] -> a -> z",
