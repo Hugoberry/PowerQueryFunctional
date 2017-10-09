@@ -61,24 +61,31 @@ shared _.Of =
 shared _.Partial = 
      Document(
         "_.Partial",
-        "Takes a function f and a list of arguments, and returns a function g. When applied, g returns the result of applying f to the arguments provided initially followed by the argument list provided to g.",
-        {[ Description = ":: ((a, b, c, ..., n) -> x) -> [a, b, c, ...] -> ([d, e, f, ..., n] -> x)", Code="_.Partial(Numbers.Sin)", Result="function"]},  
+        "Takes a function f and a list of arguments, and returns a function g. When applied, g returns the result of applying f to the arguments provided initially followed by the argument list provided to g.
+        <br>:: ((a, b, c, ..., n) -> x) -> [a, b, c, ...] -> ([d, e, f, ..., n] -> x)",
+        {[ Description = "Double a number through partial application", 
+                   Code="double = _.Partial(Value.Multily,{2}),
+                        <br>six = mdouble({3})", Result="6"]},  
         (f, a) => (b) => Function.Invoke(f, a & b)
     );
 
 shared _.Partial1 = 
      Document(
         "_.Partial1",
-        "Similar to Partial but instead of returning a function expecting a list of remaining arguments, provides a function expecting a final single argument in order to fully apply the initial function.",
-        {[ Description = ":: ((a, b, c, ..., n) -> x) -> [a, b, c, ...] -> (n -> x)", Code="_.Partial1(Numbers.Sin)", Result="function"]},  
+        "Similar to _.Partial but instead of returning a function expecting a list of remaining arguments, provides a function expecting a final single argument in order to fully apply the initial function.
+        <br>:: ((a, b, c, ..., n) -> x) -> [a, b, c, ...] -> (n -> x)",
+        {[ Description = "", Code="double = _.Partial1(Value.Multily,{2}),
+                        <br>six = mdouble(3)", Result="6"]},  
         (f, a) => _Compose(_.Partial(f, a), _.Of)
       );
 
 shared _.PartialRight =
      Document(
         "_.PartialRight",
-        "Takes a function f and a list of arguments, and returns a function g. When applied, g returns the result of applying f to the arguments provided to g followed by the argument list provided initially.",
-        {[ Description = ":: ((a, b, c, ..., n) -> x) -> [d, e, f, ..., n] -> ([a, b, c, ...] -> x)", Code="_.PartialRight(Numbers.Sin)", Result="function"]},  
+        "Takes a function f and a list of arguments, and returns a function g. When applied, g returns the result of applying f to the arguments provided to g followed by the argument list provided initially.
+        <br>:: ((a, b, c, ..., n) -> x) -> [d, e, f, ..., n] -> ([a, b, c, ...] -> x)",
+        {[ Description = "", Code="double = _.PartialRight(List.Transform,{each _*2})
+                               <br>digits = double({{0..9}})", Result="List=0,2,4,..18"]},  
         (f, a) => (b) => Function.Invoke(f, b & a)
      );
 
