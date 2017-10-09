@@ -1,8 +1,13 @@
 ﻿section _;
     
-    // Right-to-left composition of a pair of unary functions.
-    // :: (b -> c) (a -> b) -> a -> c
-    _Compose = (f, g) => (x) => f(g(x));
+_Compose = 
+    Document(
+        "_.Identity",
+        "Right-to-left composition of a pair of unary functions
+        <br>:: (b -> c) (a -> b) -> a -> c",
+        null,
+        (f, g) => (x) => f(g(x))
+    );
 
 shared _.Identity = 
     Document(
@@ -94,7 +99,8 @@ shared _.PartialRight1 =
         "_.PartialRight1",
         "Similar to PartialRight however accepts a single, final argument in order to fully apply the intial function.
         <br>:: ((a, b, c, ..., n) -> x) -> d, e, f, ..., n] -> (a -> x)",
-        {[ Description = "", Code="_.PartialRight1(Numbers.Sin)", Result="function"]},  
+        {[ Description = "", Code="double = _.PartialRight1(List.Transform,{each _*2})
+                               <br>digits = double({0..9})", Result="List=0,2,4,..18"]},  
         (f, a) => _Compose(_.PartialRight(f, a), _.Of)
      );
 
@@ -104,9 +110,10 @@ shared _.Curry =
         "Curry a function so that arguments are supplied one at a time up until the specified arity is met at which point the original function will be invoked. 
         <br>eg.Curry(3, (a, b, c) => x) = (a) => (b) => (c) => x
         <br>:: number (* -> a) -> (* -> a)",
-        {[ Description = "", Code="_.Curry(Numbers.Sin)", Result="function"]},  
-        (arity, f) =>
+        {[ Description = "Curry a function with arity 4", Code="_.Curry((x,y,z,w)=>{x,y,z,w})(1)(2)(3)(4)", Result="{1,2,3,4}"]},  
+        (f) =>
         let
+            arity = Record.FieldCount(Type.FunctionParameters(Value.Type(f))),
             Apply = (args) =>
                 if List.Count(args) >= arity then Function.Invoke(f, args)
                 else (x) => @Apply(args & _.Of(x))
@@ -119,7 +126,7 @@ shared _.Foldl =
         "_.Foldl",
         "Perform a left-associative reduction over a list.
         <br>:: (a b -> a) a -> [b] -> a",
-        {[ Description = "", Code="_.Foldl(Numbers.Sin)", Result="function"]},  
+        {[ Description = "", Code="_.Foldl((s,c)=>{s&{c}},{0})({1..3})", Result="{{{{0},1},2},3}"]},  
         (fn, seed) => (list) => List.Accumulate(list, seed, fn)
      );
 
@@ -128,7 +135,7 @@ shared _.Foldr =
         "_.Foldr",
         "Perform a right-associative reduction over a list.
         <br>:: (a b -> b) -> b -> [a] -> b",
-        {[ Description = "", Code="_.Foldr(Numbers.Sin)", Result="function"]},  
+        {[ Description = "", Code="_.Foldr((s,c)=>{{s}&c},{0})({1..3})", Result="{0,{1,{2,{3}}}}"]},  
         (fn, seed) => (list) =>
         if List.IsEmpty(list) then seed
         else
@@ -189,11 +196,11 @@ shared _.ChainOperations =
         "Provide the ability to chain sequences of internal table, record and list operations.
       <br>The internal transform functions all take the object being transformed as parameter 0. To remove the need to assign intermediate variables this lifts that argument to be within a higher-order function allowing a sequence of operations to be performed. This sequence is defined as a list of lists, with element 0 containing the transform function and elements 1..n containing the arguments 1..n for that transform.
       <br>:: [(a -> b, x, y, ..n), (b -> c, x, y, ..n),...] -> a -> z",
-        {[ Description = "Apply multiple table transformations", Code="ExtractRoomInfo = _.ChainOperations({
-              {Table.SelectColumns, {""RoomID"", ""RoomName""}},
-              {Table.RenameColumns, {""RoomID"", ""ID""}},
-              {Table.RenameColumns, {""RoomName"", ""Name""}}
-          })", Result="function"]},  
+        {[ Description = "Apply multiple table transformations", Code="TransformDummyTable = _.ChainOperations({
+              {Table.SelectColumns, {""Col1"", ""Col2""}},
+              {Table.RenameColumns, {""Col1"", ""Id""}},
+              {Table.RenameColumns, {""Col2"", ""Alfa""}}
+          })(#table({""Col1"",""Col2"",""Col3""},{{1,""A"",""B""},{2,""C"",""D""}}))", Result="function"]},  
         
         let
             Transform = (t) =>
