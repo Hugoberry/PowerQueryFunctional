@@ -84,7 +84,7 @@ shared _.PartialRight =
         "_.PartialRight",
         "Takes a function f and a list of arguments, and returns a function g. When applied, g returns the result of applying f to the arguments provided to g followed by the argument list provided initially.
         <br>:: ((a, b, c, ..., n) -> x) -> [d, e, f, ..., n] -> ([a, b, c, ...] -> x)",
-        {[ Description = "", Code="double = _.PartialRight(List.Transform,{each _*2})
+        {[ Description = "Double the numbers of a list", Code="double = _.PartialRight(List.Transform,{each _*2})
                                <br>digits = double({{0..9}})", Result="List=0,2,4,..18"]},  
         (f, a) => (b) => Function.Invoke(f, b & a)
      );
@@ -92,8 +92,9 @@ shared _.PartialRight =
 shared _.PartialRight1 = 
      Document(
         "_.PartialRight1",
-        "Similar to PartialRight however accepts a single, final argument in order to fully apply the intial function.",
-        {[ Description = ":: ((a, b, c, ..., n) -> x) -> d, e, f, ..., n] -> (a -> x)", Code="_.PartialRight1(Numbers.Sin)", Result="function"]},  
+        "Similar to PartialRight however accepts a single, final argument in order to fully apply the intial function.
+        <br>:: ((a, b, c, ..., n) -> x) -> d, e, f, ..., n] -> (a -> x)",
+        {[ Description = "", Code="_.PartialRight1(Numbers.Sin)", Result="function"]},  
         (f, a) => _Compose(_.PartialRight(f, a), _.Of)
      );
 
@@ -101,8 +102,9 @@ shared _.Curry =
      Document(
         "_.Curry",
         "Curry a function so that arguments are supplied one at a time up until the specified arity is met at which point the original function will be invoked. 
-        eg.Curry(3, (a, b, c) => x) = (a) => (b) => (c) => x",
-        {[ Description = ":: number (* -> a) -> (* -> a)", Code="_.Curry(Numbers.Sin)", Result="function"]},  
+        <br>eg.Curry(3, (a, b, c) => x) = (a) => (b) => (c) => x
+        <br>:: number (* -> a) -> (* -> a)",
+        {[ Description = "", Code="_.Curry(Numbers.Sin)", Result="function"]},  
         (arity, f) =>
         let
             Apply = (args) =>
@@ -115,16 +117,18 @@ shared _.Curry =
 shared _.Foldl = 
      Document(
         "_.Foldl",
-        "Perform a left-associative reduction over a list.",
-        {[ Description = ":: (a b -> a) a -> [b] -> a", Code="_.Foldl(Numbers.Sin)", Result="function"]},  
+        "Perform a left-associative reduction over a list.
+        <br>:: (a b -> a) a -> [b] -> a",
+        {[ Description = "", Code="_.Foldl(Numbers.Sin)", Result="function"]},  
         (fn, seed) => (list) => List.Accumulate(list, seed, fn)
      );
 
 shared _.Foldr = 
      Document(
         "_.Foldr",
-        "Perform a right-associative reduction over a list.",
-        {[ Description = ":: (a b -> b) -> b -> [a] -> b", Code="_.Foldr(Numbers.Sin)", Result="function"]},  
+        "Perform a right-associative reduction over a list.
+        <br>:: (a b -> b) -> b -> [a] -> b",
+        {[ Description = "", Code="_.Foldr(Numbers.Sin)", Result="function"]},  
         (fn, seed) => (list) =>
         if List.IsEmpty(list) then seed
         else
@@ -138,60 +142,54 @@ shared _.Foldr =
 shared _.Map = 
      Document(
         "_.Map",
-        "Apply a transform to all elements of a list.",
-        {[ Description = "(a -> b) -> [a] -> [b]", Code="_.Map(Numbers.Sin)", Result="function"]},  
+        "Apply a transform to all elements of a list.
+        <br>(a -> b) -> [a] -> [b]",
+        {[ Description = "", Code="_.Map(Numbers.Sin)", Result="function"]},  
         (fn) => (list) => List.Transform(list, fn)
      );
 
 shared _.Filter = 
      Document(
         "_.Filter",
-        "Evaluate elements of a list against a predicate, returning a new list of the items which evaluated to true.",
-        {[ Description = ":: (a -> Boolean) -> [a] -> [a]", Code="_.Filter(Numbers.Sin)", Result="function"]},  
+        "Evaluate elements of a list against a predicate, returning a new list of the items which evaluated to true.
+        <br>:: (a -> Boolean) -> [a] -> [a]",
+        {[ Description = "", Code="_.Filter(Numbers.Sin)", Result="function"]},  
         (fn) => (list) => List.Select(list, fn)
      );
 
 shared _.Combine = 
      Document(
         "_.Combine",
-        "Given two lists, create a new list containing the result of appending b to a.",
-        {[ Description = ":: [a] [a] -> [a]", Code="_.Combine(Numbers.Sin)", Result="function"]},  
+        "Given two lists, create a new list containing the result of appending b to a.
+        <br>:: [a] [a] -> [a]",
+        {[ Description = "", Code="_.Combine(Numbers.Sin)", Result="function"]},  
         (a, b) => a & b
      );
 shared _.Append = 
      Document(
         "_.Append",
-        "Add a single element to the tail of a list and return a new list containing the merged result.",
-        {[ Description = ":: a -> [a] -> [a]", Code="_.Append(Numbers.Sin)", Result="function"]},  
+        "Add a single element to the tail of a list and return a new list containing the merged result.
+        <br>:: a -> [a] -> [a]",
+        {[ Description = "", Code="_.Append(Numbers.Sin)", Result="function"]},  
         (a) => (list) => list & _.Of(a)
      );
 
-    /**
-    * 
-     *
-     * 
-     */
 shared _.Prepend = 
      Document(
         "_.Prepend",
-        "Add a single element to the head of a list and return a new list containing the merged result.",
-        {[ Description = ":: a -> [a] -> [a]", Code="_.Prepend(Numbers.Sin)", Result="function"]},  
+        "Add a single element to the head of a list and return a new list containing the merged result.
+        <br>:: a -> [a] -> [a]",
+        {[ Description = "", Code="_.Prepend(Numbers.Sin)", Result="function"]},  
         (a) => (list) => _.Of(a) & list
     );
 
 shared _.ChainOperations =
     Document(
         "_.Prepend",
-        "Provide the ability to chain sequences of internal table, record and
-      list operations.
-     
-      The internal transform functions all take the object being transformed
-      as parameter 0. To remove the need to assign intermediate variables
-      this lifts that argument to be within a higher-order function allowing
-      a sequence of operations to be performed. This sequence is defined as a
-      list of lists, with element 0 containing the transform function and
-      elements 1..n containing the arguments 1..n for that transform.",
-        {[ Description = ":: [(a -> b, x, y, ..n), (b -> c, x, y, ..n),...] -> a -> z", Code="ExtractRoomInfo = _.ChainOperations({
+        "Provide the ability to chain sequences of internal table, record and list operations.
+      <br>The internal transform functions all take the object being transformed as parameter 0. To remove the need to assign intermediate variables this lifts that argument to be within a higher-order function allowing a sequence of operations to be performed. This sequence is defined as a list of lists, with element 0 containing the transform function and elements 1..n containing the arguments 1..n for that transform.
+      <br>:: [(a -> b, x, y, ..n), (b -> c, x, y, ..n),...] -> a -> z",
+        {[ Description = "Apply multiple table transformations", Code="ExtractRoomInfo = _.ChainOperations({
               {Table.SelectColumns, {""RoomID"", ""RoomName""}},
               {Table.RenameColumns, {""RoomID"", ""ID""}},
               {Table.RenameColumns, {""RoomName"", ""Name""}}
@@ -220,6 +218,5 @@ Document = (name as text, description as text, valueOrExample as any, optional v
         Value.ReplaceType(value, Value.Type(value) meta [
             Documentation.Name = name, 
             Documentation.Description = description,  
-            // [Description = "", Code="", Result =""]
             Documentation.Examples = examples
         ]);
