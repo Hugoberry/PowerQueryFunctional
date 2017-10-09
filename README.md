@@ -1,7 +1,7 @@
 # PowerQueryFunctional
 Power Query utility library with a functional twist
 
-![PowerBI](media/heading.png)
+![PowerBI](media/heading.PNG)
 
 ## _.Identity
 A function that does nothing but return the parameter supplied to it. Good as a default or placeholder function.
