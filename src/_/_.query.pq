@@ -1,5 +1,5 @@
 ﻿// Use this file to write queries to test your data connector
 let
-    result = _.Compose({Number.Sin,Number.Cos})(1)
+    result = _.IChain(10, { {each _/2}, {Number.Power, 3} })
 in
     result

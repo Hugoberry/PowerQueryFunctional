@@ -213,6 +213,21 @@ shared _.ChainOperations =
             _Compose(_.Pipe, _.Map(Transform))
      );
 
+     shared _.IChain =
+    Document(
+        "_.IChain",
+        "Similar to _.ChainOperations apart from the order of the function arguments: The object to be transformed comes before the list of chain operations.
+      <br>The internal transform functions all take the object being transformed as parameter 0. To remove the need to assign intermediate variables this lifts that argument to be within a higher-order function allowing a sequence of operations to be performed. This sequence is defined as a list of lists, with element 0 containing the transform function and elements 1..n containing the arguments 1..n for that transform.
+      <br>:: [(a -> b, x, y, ..n), (b -> c, x, y, ..n),...] -> a -> z",
+        {[ Description = "Divide first, then raise by power", Code="_.IChain(10, { {each _/2}, {Number.Power, 3} } )", Result="125"]},  
+        
+        (x, operations) => 
+            let
+            IChain = _.ChainOperations(operations)
+            in
+                IChain(x)
+     );
+
 ///////////////////////// 
 // Dependencies        //
 /////////////////////////
